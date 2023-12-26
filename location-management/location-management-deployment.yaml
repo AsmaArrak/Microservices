@@ -12,6 +12,7 @@ spec:
       labels:
         app: location-management
     spec:
+      serviceAccountName: jenkins-sa  # Add this line to specify the service account
       containers:
       - name: location-management
         image: asmaarrak/location-management:latest

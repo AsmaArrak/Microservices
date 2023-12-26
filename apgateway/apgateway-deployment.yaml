@@ -12,6 +12,7 @@ spec:
       labels:
         app: apgateway
     spec:
+      serviceAccountName: jenkins-sa  # Add this line to specify the service account
       containers:
       - name: apgateway
         image: asmaarrak/apgateway:latest
