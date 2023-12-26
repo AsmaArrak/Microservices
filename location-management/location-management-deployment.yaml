@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-management
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: location-management
+  template:
+    metadata:
+      labels:
+        app: location-management
+    spec:
+      containers:
+      - name: location-management
+        image: asmaarrak/location-management:latest
+        ports:
+        - containerPort: 3001
