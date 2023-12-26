@@ -28,15 +28,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                // Use kubectl to apply Kubernetes manifests
-                sh 'kubectl apply -f kubernetes/location-management-deployment.yaml'
-                sh 'kubectl apply -f kubernetes/resolvers-deployment.yaml'
-                sh 'kubectl apply -f kubernetes/userauthserver-deployment.yaml'
-                sh 'kubectl apply -f kubernetes/apgateway-deployment.yaml'
-            }
-        }
+        
     }
 
     post {
