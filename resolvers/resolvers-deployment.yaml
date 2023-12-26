@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resolvers-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: resolvers
+  template:
+    metadata:
+      labels:
+        app: resolvers
+    spec:
+      containers:
+      - name: resolvers
+        image: asmaarrak/resolvers:latest
+        ports:
+        - containerPort: 3002
