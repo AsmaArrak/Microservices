@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-auth-deployment
+  labels:
+    app: user-auth
 spec:
   replicas: 1
   selector:
@@ -19,16 +21,5 @@ spec:
         - containerPort: 3000
 
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-authservice
-spec:
-  selector:
-    app: user-auth
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-  type: NodePort
+
 

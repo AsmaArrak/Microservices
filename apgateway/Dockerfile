@@ -20,4 +20,4 @@ EXPOSE 4000
 ENV NODE_ENV=production
 
 # Run apGateway.js when the container launches
-CMD ["node", "apGateway.js"]
+CMD ["node", "apgateway.js"]
