@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: user-auth-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: user-auth
@@ -12,9 +12,23 @@ spec:
       labels:
         app: user-auth
     spec:
-      serviceAccountName: jenkins-sa  # Add this line to specify the service account
       containers:
       - name: user-auth
         image: asmaarrak/user-auth:latest
         ports:
         - containerPort: 3000
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-authservice
+spec:
+  selector:
+    app: user-auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: NodePort
+

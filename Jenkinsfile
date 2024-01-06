@@ -2,11 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/AsmaArrak/Microservices', credentialsId: '1d6bf3e4-d30b-45eb-8371-fb26be8d2fb1']]])
+    
+            stage('Checkout') {
+              steps {
+                  git branch: 'main',
+                    url: 'https://github.com/AsmaArrak/Microservices'
+                     }   
             }
-        }
 
         stage('Build and Push Docker Images') {
             steps {
@@ -28,27 +30,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                // Use kubectl to apply Kubernetes manifests
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'kubernetes-credentials', passwordVariable: 'token', usernameVariable: 'serverUrl')]) {
-                        sh "kubectl config set-credentials jenkins --token=$token"
-                        sh "kubectl config set-cluster k8s --server=$serverUrl --insecure-skip-tls-verify"
-                        sh "kubectl config set-context jenkins --cluster=k8s --user=jenkins"
-                        sh "kubectl config use-context jenkins"
-                        sh 'kubectl apply -f kubernetes/location-management-deployment.yaml'
-                        sh 'kubectl apply -f kubernetes/resolvers-deployment.yaml'
-                        sh 'kubectl apply -f kubernetes/user-auth-deployment.yaml'
-                        sh 'kubectl apply -f kubernetes/apgateway-deployment.yaml'
-                        sh 'kubectl apply -f location-management/kubernetes/service.yaml'
-                        sh 'kubectl apply -f redolvers/kubernetes/service.yaml'
-                        sh 'kubectl apply -f user-auth/kubernetes/service.yaml'
-                        sh 'kubectl apply -f apgateway/kubernetes/service.yaml'
-                    }
-                }
-            }
-        }
+    
     }
 
     post {

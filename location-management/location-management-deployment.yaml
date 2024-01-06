@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: location-management-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: location-management
@@ -12,9 +12,23 @@ spec:
       labels:
         app: location-management
     spec:
-      serviceAccountName: jenkins-sa  # Add this line to specify the service account
       containers:
       - name: location-management
         image: asmaarrak/location-management:latest
         ports:
         - containerPort: 3001
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: location-management-service
+spec:
+  selector:
+    app: location-management
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
+  type: NodePort
